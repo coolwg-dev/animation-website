@@ -20,7 +20,16 @@ const year = new Date().getFullYear();
   </head>
   <body>
     <header>
-      <h1 style="margin:0">{title}</h1>
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <h1 style="margin:0">{title}</h1>
+        <nav aria-label="Main navigation">
+          <a href="/" style="margin-right:1rem;color:white;opacity:.95">Home</a>
+          <a href="/fourier_square_wave" style="margin-right:1rem;color:white;opacity:.95">Fourier</a>
+          <a href="/power_curves" style="margin-right:1rem;color:white;opacity:.95">Power curves</a>
+          <a href="/riemann_sum_manim" style="margin-right:1rem;color:white;opacity:.95">Riemann sum</a>
+          <a href="/secant_to_tangent" style="color:white;opacity:.95">Secant → Tangent</a>
+        </nav>
+      </div>
     </header>
     <main>
       <slot />

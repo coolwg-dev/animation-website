@@ -23,3 +23,16 @@ Files added:
 Next steps:
 - Replace placeholder content with your animations.
 - Add components under `src/components` and styles as needed.
+
+Adding videos
+---------------
+Place video files in the `public/videos/<category>/` folder (for example `public/videos/fourier_square_wave/`).
+Files placed under `public/` are served statically, so a file at `public/videos/fourier_square_wave/example.mp4` will be reachable at `/videos/fourier_square_wave/example.mp4`.
+
+The site includes four default category pages:
+- `fourier_square_wave`
+- `power_curves`
+- `riemann_sum_manim`
+- `secant_to_tangent`
+
+Create additional categories by adding a page under `src/pages/` and linking to it from `src/layouts/BaseLayout.astro` or the homepage.

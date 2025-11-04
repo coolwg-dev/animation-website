@@ -4,9 +4,34 @@ const title = "Animation Website — Placeholder";
 ---
 <BaseLayout title={title}>
   <h2>Welcome</h2>
-  <p>This is a simple placeholder Astro website.</p>
-  <p>Try adding your animations in <code>src/pages</code> or <code>src/components</code>.</p>
-  <ul>
-    <li><a href="/about">About</a> (placeholder)</li>
-  </ul>
+  <p>This site hosts short math animation videos organized by category. Click a category to view its videos and embedding instructions.</p>
+
+  <section aria-labelledby="categories">
+    <h3 id="categories">Categories</h3>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-top:1rem">
+      <a href="/fourier_square_wave" style="display:block;padding:1rem;border-radius:8px;background:#ffffff;border:1px solid #e6eef0;text-decoration:none;color:inherit">
+        <strong>Fourier — Square Wave</strong>
+        <div style="margin-top:.4rem;color:#64748b">Animations showing Fourier series approximations to a square wave.</div>
+      </a>
+
+      <a href="/power_curves" style="display:block;padding:1rem;border-radius:8px;background:#ffffff;border:1px solid #e6eef0;text-decoration:none;color:inherit">
+        <strong>Power curves</strong>
+        <div style="margin-top:.4rem;color:#64748b">Visualizations of power functions and their behavior.</div>
+      </a>
+
+      <a href="/riemann_sum_manim" style="display:block;padding:1rem;border-radius:8px;background:#ffffff;border:1px solid #e6eef0;text-decoration:none;color:inherit">
+        <strong>Riemann sum (manim)</strong>
+        <div style="margin-top:.4rem;color:#64748b">Riemann sum animations built with Manim.</div>
+      </a>
+
+      <a href="/secant_to_tangent" style="display:block;padding:1rem;border-radius:8px;background:#ffffff;border:1px solid #e6eef0;text-decoration:none;color:inherit">
+        <strong>Secant → Tangent</strong>
+        <div style="margin-top:.4rem;color:#64748b">Animations that show secant lines approaching tangent lines.</div>
+      </a>
+    </div>
+  </section>
+
+  <hr style="margin:2rem 0" />
+
+  <p>If you want to add videos: place them in <code>/public/videos/&lt;category&gt;/</code> (for example <code>/public/videos/fourier_square_wave/</code>) and link/embed them from the category pages.</p>
 </BaseLayout>
