@@ -1,56 +1,31 @@
 ---
-import fs from 'node:fs';
-import path from 'node:path';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
+// Static imports of known video files. If you add more videos, import them here
+// and wire them into the scenesMap below.
+import video_scene01 from '/videos/monte_carlo/scene_01_intro/480p15/IntroToUncertainty.mp4';
+import video_scene02 from '/videos/monte_carlo/scene_02_monte_carlo/480p15/MonteCarloIntroScene.mp4';
+import video_scene03 from '/videos/monte_carlo/scene_03_pi_setup/480p15/PiEstimationSetup.mp4';
+import video_scene04 from '/videos/monte_carlo/scene_04_random_points_begin/480p15/RandomPointsBegin.mp4';
+import video_scene05 from '/videos/monte_carlo/scene_05_accumulation_of_points/480p15/AccumulationOfPoints.mp4';
+import video_scene06 from '/videos/monte_carlo/scene_06_counting_and_ratios/480p15/CountingAndRatios.mp4';
+import video_scene07 from '/videos/monte_carlo/scene_07_formula_emerges/480p15/FormulaEmerges.mp4';
+import video_scene08 from '/videos/monte_carlo/scene_08_convergence/480p15/ConvergencePowerOfMany.mp4';
+
 const title = "Monte Carlo — Videos";
-const scenes = [
-  { id: 'scene_01_intro_uncertainty', title: 'Scene 01 — Intro to uncertainty' },
-  { id: 'scene_02_introducing_monte_carlo', title: 'Scene 02 — Introducing Monte Carlo' },
-  { id: 'scene_03_pi_setup', title: 'Scene 03 — Pi setup' },
-  { id: 'scene_04_random_points_begin', title: 'Scene 04 — Random points begin' },
-  { id: 'scene_05_accumulation_of_points', title: 'Scene 05 — Accumulation of points' },
-  { id: 'scene_06_counting_and_ratios', title: 'Scene 06 — Counting and ratios' },
-  { id: 'scene_07_formula_emerges', title: 'Scene 07 — Formula emerges' },
-  { id: 'scene_08_convergence', title: 'Scene 08 — Convergence' },
-];
 
-// Find mp4 files under public/videos/monte_carlo/<scene>
-function findMp4sForScene(id) {
-  const sceneDir = path.join(process.cwd(), 'public', 'videos', 'monte_carlo', id);
-  if (!fs.existsSync(sceneDir)) return [];
-  const results = [];
-  function walk(dir, rel = '') {
-    for (const ent of fs.readdirSync(dir, { withFileTypes: true })) {
-      const name = ent.name;
-      const full = path.join(dir, name);
-      const relPath = rel ? path.posix.join(rel, name) : name;
-      if (ent.isDirectory()) {
-        walk(full, relPath);
-      } else if (ent.isFile() && name.toLowerCase().endsWith('.mp4')) {
-        // Build the URL that points into /videos/monte_carlo/... served from public/
-        const urlPath = path.posix.join('/videos/monte_carlo', id, relPath.split(path.sep).join('/'));
-        results.push(urlPath);
-      }
-    }
-  }
-  walk(sceneDir);
-  // Prefer obvious single movie names if present
-  const preferredOrder = ['video.mp4', 'movie.mp4', `${id}.mp4`];
-  results.sort((a, b) => {
-    const aName = a.split('/').pop().toLowerCase();
-    const bName = b.split('/').pop().toLowerCase();
-    const ai = preferredOrder.indexOf(aName);
-    const bi = preferredOrder.indexOf(bName);
-    if (ai === -1 && bi === -1) return 0;
-    if (ai === -1) return 1;
-    if (bi === -1) return -1;
-    return ai - bi;
-  });
-  return results;
-}
+const scenesMap = {
+  scene_01_intro_uncertainty: { title: 'Scene 01 — Intro to uncertainty', video: video_scene01 },
+  scene_02_introducing_monte_carlo: { title: 'Scene 02 — Introducing Monte Carlo', video: video_scene02 },
+  scene_03_pi_setup: { title: 'Scene 03 — Pi setup', video: video_scene03 },
+  scene_04_random_points_begin: { title: 'Scene 04 — Random points begin', video: video_scene04 },
+  scene_05_accumulation_of_points: { title: 'Scene 05 — Accumulation of points', video: video_scene05 },
+  scene_06_counting_and_ratios: { title: 'Scene 06 — Counting and ratios', video: video_scene06 },
+  scene_07_formula_emerges: { title: 'Scene 07 — Formula emerges', video: video_scene07 },
+  scene_08_convergence: { title: 'Scene 08 — Convergence', video: video_scene08 },
+};
 
-const scenesWithVideos = scenes.map(s => ({ ...s, videos: findMp4sForScene(s.id) }));
+const scenesWithVideos = Object.entries(scenesMap).map(([id, info]) => ({ id, title: info.title, video: info.video }));
 ---
 
 <BaseLayout title={title}>
@@ -62,15 +37,9 @@ const scenesWithVideos = scenes.map(s => ({ ...s, videos: findMp4sForScene(s.id)
       <article style="padding:1rem;border-radius:8px;background:#fff;border:1px solid #e6eef0">
         <h4 style="margin:0 0 .5rem">{scene.title}</h4>
 
-        {scene.videos && scene.videos.length > 0 ? (
+        {scene.video ? (
           <>
-            <video controls style="width:100%;height:auto;background:#000">
-              {scene.videos.map(v => (
-                <source src={v} type="video/mp4" />
-              ))}
-              Your browser does not support the video tag.
-            </video>
-            <div style="margin-top:.5rem;color:#64748b">Found {scene.videos.length} file(s).</div>
+            <iframe src={scene.video} style="width:100%;height:360px;border:0;background:#000" title={scene.title} allowfullscreen />
           </>
         ) : (
           <div style="background:#f8fafc;padding:1rem;border-radius:6px;color:#64748b">No video found for this scene. <a href={`/videos/monte_carlo/${scene.id}/`} rel="noopener">Open scene folder</a> to add files.</div>
