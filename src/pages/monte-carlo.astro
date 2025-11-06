@@ -1,0 +1,83 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = "Monte Carlo — Videos";
+const scenes = [
+  { id: 'scene_01_intro_uncertainty', title: 'Scene 01 — Intro to uncertainty' },
+  { id: 'scene_02_introducing_monte_carlo', title: 'Scene 02 — Introducing Monte Carlo' },
+  { id: 'scene_03_pi_setup', title: 'Scene 03 — Pi setup' },
+  { id: 'scene_04_random_points_begin', title: 'Scene 04 — Random points begin' },
+  { id: 'scene_05_accumulation_of_points', title: 'Scene 05 — Accumulation of points' },
+  { id: 'scene_06_counting_and_ratios', title: 'Scene 06 — Counting and ratios' },
+  { id: 'scene_07_formula_emerges', title: 'Scene 07 — Formula emerges' },
+  { id: 'scene_08_convergence', title: 'Scene 08 — Convergence' },
+];
+
+// Find mp4 files under public/videos/monte_carlo/<scene>
+function findMp4sForScene(id) {
+  const sceneDir = path.join(process.cwd(), 'public', 'videos', 'monte_carlo', id);
+  if (!fs.existsSync(sceneDir)) return [];
+  const results = [];
+  function walk(dir, rel = '') {
+    for (const ent of fs.readdirSync(dir, { withFileTypes: true })) {
+      const name = ent.name;
+      const full = path.join(dir, name);
+      const relPath = rel ? path.posix.join(rel, name) : name;
+      if (ent.isDirectory()) {
+        walk(full, relPath);
+      } else if (ent.isFile() && name.toLowerCase().endsWith('.mp4')) {
+        // Build the URL that points into /videos/monte_carlo/... served from public/
+        const urlPath = path.posix.join('/videos/monte_carlo', id, relPath.split(path.sep).join('/'));
+        results.push(urlPath);
+      }
+    }
+  }
+  walk(sceneDir);
+  // Prefer obvious single movie names if present
+  const preferredOrder = ['video.mp4', 'movie.mp4', `${id}.mp4`];
+  results.sort((a, b) => {
+    const aName = a.split('/').pop().toLowerCase();
+    const bName = b.split('/').pop().toLowerCase();
+    const ai = preferredOrder.indexOf(aName);
+    const bi = preferredOrder.indexOf(bName);
+    if (ai === -1 && bi === -1) return 0;
+    if (ai === -1) return 1;
+    if (bi === -1) return -1;
+    return ai - bi;
+  });
+  return results;
+}
+
+const scenesWithVideos = scenes.map(s => ({ ...s, videos: findMp4sForScene(s.id) }));
+---
+
+<BaseLayout title={title}>
+  <h2>Monte Carlo videos</h2>
+  <p>Below are the Monte Carlo scenes. Available videos found under <code>/public/videos/monte_carlo/&lt;scene_id&gt;/</code> are embedded automatically. If you don't see a player, open the folder link to upload videos.</p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1rem;margin-top:1rem">
+    {scenesWithVideos.map(scene => (
+      <article style="padding:1rem;border-radius:8px;background:#fff;border:1px solid #e6eef0">
+        <h4 style="margin:0 0 .5rem">{scene.title}</h4>
+
+        {scene.videos && scene.videos.length > 0 ? (
+          <>
+            <video controls style="width:100%;height:auto;background:#000">
+              {scene.videos.map(v => (
+                <source src={v} type="video/mp4" />
+              ))}
+              Your browser does not support the video tag.
+            </video>
+            <div style="margin-top:.5rem;color:#64748b">Found {scene.videos.length} file(s).</div>
+          </>
+        ) : (
+          <div style="background:#f8fafc;padding:1rem;border-radius:6px;color:#64748b">No video found for this scene. <a href={`/videos/monte_carlo/${scene.id}/`} rel="noopener">Open scene folder</a> to add files.</div>
+        )}
+
+      </article>
+    ))}
+  </div>
+
+</BaseLayout>
