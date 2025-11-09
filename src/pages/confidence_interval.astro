@@ -1,37 +1,38 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import fs from 'fs';
 const title = 'Confidence interval';
 
-// Read video files from the public/videos folder at build / server render time.
-const videoFolder = new URL('../../public/videos/Confidence interval', import.meta.url).pathname;
-let videos = [];
-try {
-  videos = fs.readdirSync(videoFolder).filter(f => /\.(mp4|webm|ogg)$/i.test(f));
-} catch (e) {
-  videos = [];
-}
+// Import known video files directly so they are bundled and available as URLs.
+// These imports use relative paths into the `public` folder. If you add more
+// videos, add imports here (or migrate videos into `src/assets` and use
+// import.meta.glob for a dynamic approach).
+import CIConstruction from '../../public/videos/Confidence interval/ConfidenceIntervalConstruction.mp4';
+import CLI_720 from '../../public/videos/Confidence interval/ConfidenceLevelInterpretation_720p30.mp4';
+import DC_1080_60 from '../../public/videos/Confidence interval/DistributionComparison_1080p60.mp4';
+
+const videos = [
+  { src: CIConstruction, name: 'ConfidenceIntervalConstruction.mp4' },
+  { src: CLI_720, name: 'ConfidenceLevelInterpretation_720p30.mp4' },
+  { src: DC_1080_60, name: 'DistributionComparison_1080p60.mp4' },
+];
 ---
 
 <BaseLayout title={title}>
   <h2>Confidence interval</h2>
-  <p>Videos that demonstrate confidence interval construction and interpretation.</p>
-  {videos.length ? (
+  {videos.length && (
     <div>
       <h3>Videos</h3>
       <ul style="list-style:none;padding:0">
         {videos.map(v => (
-          <li style="margin-bottom:1rem">
-            <strong>{v}</strong>
-            <div>
-              <video controls width="640" src={`/videos/Confidence interval/${v}`}>Your browser doesn't support the video element.</video>
+          <li style="margin-bottom:1.5rem">
+            <strong>{v.name}</strong>
+            <div style="margin-top:.5rem">
+              <iframe src={v.src} width="800" height="450" title={v.name} style="border:1px solid #e6eef0;border-radius:6px"></iframe>
             </div>
           </li>
         ))}
       </ul>
     </div>
-  ) : (
-    <p>No videos found in <code>public/videos/Confidence interval/</code>. Add .mp4/.webm/.ogg files to that folder and refresh.</p>
   )}
 
 </BaseLayout>
