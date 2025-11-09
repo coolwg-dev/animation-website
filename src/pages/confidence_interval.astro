@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import fs from 'fs';
+const title = 'Confidence interval';
+
+// Read video files from the public/videos folder at build / server render time.
+const videoFolder = new URL('../../public/videos/Confidence interval', import.meta.url).pathname;
+let videos = [];
+try {
+  videos = fs.readdirSync(videoFolder).filter(f => /\.(mp4|webm|ogg)$/i.test(f));
+} catch (e) {
+  videos = [];
+}
+---
+
+<BaseLayout title={title}>
+  <h2>Confidence interval</h2>
+  <p>Videos that demonstrate confidence interval construction and interpretation.</p>
+  {videos.length ? (
+    <div>
+      <h3>Videos</h3>
+      <ul style="list-style:none;padding:0">
+        {videos.map(v => (
+          <li style="margin-bottom:1rem">
+            <strong>{v}</strong>
+            <div>
+              <video controls width="640" src={`/videos/Confidence interval/${v}`}>Your browser doesn't support the video element.</video>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  ) : (
+    <p>No videos found in <code>public/videos/Confidence interval/</code>. Add .mp4/.webm/.ogg files to that folder and refresh.</p>
+  )}
+
+</BaseLayout>
