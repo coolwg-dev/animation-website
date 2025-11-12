@@ -1,10 +1,10 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 
-const centroid = new URL('../../public/videos/centroid_scene/1080p60/centroid_1080p.mp4', import.meta.url).href;
-const circumcenter = new URL('../../public/videos/circumcenter_scene/1080p60/circumcenter_1080p.mp4', import.meta.url).href;
-const incenter = new URL('../../public/videos/incenter_scene/1080p60/incenter_1080p.mp4', import.meta.url).href;
-const orthocenter = new URL('../../public/videos/orthocenter_scene/1080p60/orthocenter_1080p.mp4', import.meta.url).href;
+import centroid from '/videos/centroid_scene/1080p60/centroid_1080p.mp4';
+import circumcenter from '/videos/circumcenter_scene/1080p60/circumcenter_1080p.mp4';
+import incenter from '/videos/incenter_scene/1080p60/incenter_1080p.mp4';
+import orthocenter from '/videos/orthocenter_scene/1080p60/orthocenter_1080p.mp4';
 
 const videos = [
   { id: 'centroid', title: 'Centroid', src: centroid },
@@ -16,7 +16,7 @@ const videos = [
 
 <BaseLayout title="Center points - videos">
   <h2>Center constructions</h2>
-  <p>Four videos showing different triangle centers. These are imported with static imports (via <code>new URL(..., import.meta.url)</code>), not by scanning directories.</p>
+  <p>Four videos showing different triangle centers. These are imported with static imports from <code>/videos/...</code> (served from <code>public/</code>), not by scanning directories.</p>
 
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;align-items:start">
     {videos.map(video => (
