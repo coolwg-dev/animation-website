@@ -50,6 +50,7 @@ const year = new Date().getFullYear();
         display: flex;
         gap: 0.25rem;
         flex-wrap: wrap;
+        align-items: center;
       }
       
       nav a {
@@ -69,6 +70,89 @@ const year = new Date().getFullYear();
       
       nav a:active {
         transform: translateY(0);
+      }
+      
+      /* Dropdown menu styles */
+      .nav-dropdown {
+        position: relative;
+      }
+      
+      .nav-dropdown > button {
+        padding: 0.5rem 1rem;
+        color: white;
+        background: transparent;
+        border: none;
+        border-radius: 6px;
+        transition: all 0.2s ease;
+        font-weight: 500;
+        font-size: 0.95rem;
+        cursor: pointer;
+        font-family: inherit;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+      }
+      
+      .nav-dropdown > button::after {
+        content: '▾';
+        font-size: 0.8rem;
+        transition: transform 0.2s ease;
+      }
+      
+      .nav-dropdown > button:hover {
+        background: rgba(255, 255, 255, 0.15);
+      }
+      
+      .nav-dropdown:hover > button::after,
+      .nav-dropdown.active > button::after {
+        transform: rotate(180deg);
+      }
+      
+      .dropdown-content {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        margin-top: 0.5rem;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        min-width: 200px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.2s ease;
+        z-index: 1000;
+      }
+      
+      .nav-dropdown:hover .dropdown-content,
+      .nav-dropdown.active .dropdown-content {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+      
+      .dropdown-content a {
+        display: block;
+        padding: 0.75rem 1rem;
+        color: #334155;
+        text-decoration: none;
+        transition: all 0.15s ease;
+        font-size: 0.9rem;
+        border-radius: 0;
+      }
+      
+      .dropdown-content a:first-child {
+        border-radius: 8px 8px 0 0;
+      }
+      
+      .dropdown-content a:last-child {
+        border-radius: 0 0 8px 8px;
+      }
+      
+      .dropdown-content a:hover {
+        background: #f1f5f9;
+        color: #0891b2;
+        transform: translateX(4px);
       }
       
       main {
@@ -142,11 +226,55 @@ const year = new Date().getFullYear();
         
         nav {
           width: 100%;
+          flex-direction: column;
+          gap: 0.5rem;
         }
         
-        nav a {
+        nav > a {
           font-size: 0.9rem;
           padding: 0.4rem 0.8rem;
+          width: 100%;
+        }
+        
+        .nav-dropdown {
+          width: 100%;
+        }
+        
+        .nav-dropdown > button {
+          width: 100%;
+          justify-content: space-between;
+          font-size: 0.9rem;
+          padding: 0.4rem 0.8rem;
+        }
+        
+        .dropdown-content {
+          position: static;
+          margin-top: 0;
+          margin-left: 1rem;
+          box-shadow: none;
+          background: rgba(255, 255, 255, 0.1);
+          border-radius: 6px;
+          max-height: 0;
+          overflow: hidden;
+          opacity: 1;
+          visibility: visible;
+          transform: none;
+        }
+        
+        .nav-dropdown.active .dropdown-content {
+          max-height: 500px;
+          margin-top: 0.5rem;
+        }
+        
+        .dropdown-content a {
+          color: white;
+          padding: 0.5rem 0.8rem;
+          font-size: 0.85rem;
+        }
+        
+        .dropdown-content a:hover {
+          background: rgba(255, 255, 255, 0.15);
+          transform: translateX(0);
         }
         
         main {
@@ -165,12 +293,38 @@ const year = new Date().getFullYear();
         <h1>Mathematical Animation Gallery</h1>
         <nav aria-label="Main navigation">
           <a href="/">Home</a>
-          <a href="/fourier_square_wave">Fourier</a>
-          <a href="/power_curves">Power Curves</a>
-          <a href="/riemann_sum_manim">Riemann Sum</a>
-          <a href="/secant_to_tangent">Secant to Tangent</a>
-          <a href="/monte-carlo">Monte Carlo</a>
-          <a href="/vector_transformation">Vectors</a>
+          
+          <div class="nav-dropdown">
+            <button type="button" aria-haspopup="true" aria-expanded="false">Calculus</button>
+            <div class="dropdown-content" role="menu">
+              <a href="/riemann_sum_manim" role="menuitem">Riemann Sums</a>
+              <a href="/fourier_square_wave" role="menuitem">Fourier Series</a>
+              <a href="/secant_to_tangent" role="menuitem">Secant to Tangent</a>
+            </div>
+          </div>
+          
+          <div class="nav-dropdown">
+            <button type="button" aria-haspopup="true" aria-expanded="false">Statistics</button>
+            <div class="dropdown-content" role="menu">
+              <a href="/monte-carlo" role="menuitem">Monte Carlo</a>
+              <a href="/confidence_interval" role="menuitem">Confidence Intervals</a>
+              <a href="/power_curves" role="menuitem">Power Curves</a>
+            </div>
+          </div>
+          
+          <div class="nav-dropdown">
+            <button type="button" aria-haspopup="true" aria-expanded="false">Geometry</button>
+            <div class="dropdown-content" role="menu">
+              <a href="/centers" role="menuitem">Triangle Centers</a>
+            </div>
+          </div>
+          
+          <div class="nav-dropdown">
+            <button type="button" aria-haspopup="true" aria-expanded="false">Linear Algebra</button>
+            <div class="dropdown-content" role="menu">
+              <a href="/vector_transformation" role="menuitem">Vector Transformations</a>
+            </div>
+          </div>
         </nav>
       </div>
     </header>
@@ -180,5 +334,59 @@ const year = new Date().getFullYear();
     <footer>
       © {year} Mathematical Animation Gallery. All rights reserved.
     </footer>
+    
+    <script>
+      // Handle dropdown toggle on mobile and for accessibility
+      document.addEventListener('DOMContentLoaded', () => {
+        const dropdowns = document.querySelectorAll('.nav-dropdown');
+        
+        dropdowns.forEach(dropdown => {
+          const button = dropdown.querySelector('button');
+          
+          button?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            
+            // Close other dropdowns
+            dropdowns.forEach(other => {
+              if (other !== dropdown) {
+                other.classList.remove('active');
+                const otherButton = other.querySelector('button');
+                if (otherButton) {
+                  otherButton.setAttribute('aria-expanded', 'false');
+                }
+              }
+            });
+            
+            // Toggle current dropdown
+            const isActive = dropdown.classList.toggle('active');
+            button.setAttribute('aria-expanded', isActive ? 'true' : 'false');
+          });
+        });
+        
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', () => {
+          dropdowns.forEach(dropdown => {
+            dropdown.classList.remove('active');
+            const button = dropdown.querySelector('button');
+            if (button) {
+              button.setAttribute('aria-expanded', 'false');
+            }
+          });
+        });
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') {
+            dropdowns.forEach(dropdown => {
+              dropdown.classList.remove('active');
+              const button = dropdown.querySelector('button');
+              if (button) {
+                button.setAttribute('aria-expanded', 'false');
+              }
+            });
+          }
+        });
+      });
+    </script>
   </body>
 </html>
