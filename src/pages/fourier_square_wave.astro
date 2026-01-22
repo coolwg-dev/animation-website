@@ -1,9 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import fs from 'fs';
-const title = 'Fourier — Square Wave';
+const title = 'Fourier Series';
 
-// Read video files from the public/videos folder at build / server render time.
 const videoFolder = new URL('../../public/videos/fourier_square_wave', import.meta.url).pathname;
 let videos = [];
 try {
@@ -14,24 +13,64 @@ try {
 ---
 
 <BaseLayout title={title}>
-  <h2>Fourier — Square Wave</h2>
-  <p>Animations that illustrate the Fourier series approximating a square wave.</p>
-  {videos.length ? (
-    <div>
-      <h3>Videos</h3>
-      <ul style="list-style:none;padding:0">
-        {videos.map(v => (
-          <li style="margin-bottom:1rem">
-            <strong>{v}</strong>
-            <div>
-              <video controls width="640" src={`/videos/fourier_square_wave/${v}`}>Your browser doesn't support the video element.</video>
-            </div>
-          </li>
-        ))}
-      </ul>
-    </div>
-  ) : (
-    <p>No videos found in <code>public/videos/fourier_square_wave/</code>. Add .mp4/.webm/.ogg files to that folder and refresh.</p>
-  )}
+  <style>
+    .video-list {
+      list-style: none;
+      padding: 0;
+      margin-top: 2rem;
+    }
+    
+    .video-item {
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      background: white;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      transition: box-shadow 0.3s ease;
+    }
+    
+    .video-item:hover {
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    }
+    
+    .video-item h4 {
+      margin: 0 0 1rem;
+      color: #0f172a;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    
+    .video-item video {
+      width: 100%;
+      max-width: 800px;
+      border-radius: 8px;
+      background: #000;
+    }
+    
+    .no-videos {
+      padding: 3rem;
+      background: white;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      text-align: center;
+      color: #64748b;
+    }
+  </style>
 
+  <h2>Fourier Series</h2>
+  <p>Visualize how Fourier series approximate a square wave using harmonic components.</p>
+  
+  {videos.length ? (
+    <ul class="video-list">
+      {videos.map(v => (
+        <li class="video-item">
+          <h4>{v.replace(/\.(mp4|webm|ogg)$/i, '').replace(/_/g, ' ')}</h4>
+          <video controls src={`/videos/fourier_square_wave/${v}`}>Your browser doesn't support the video element.</video>
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <div class="no-videos">No videos are currently available for this category.</div>
+  )}
 </BaseLayout>

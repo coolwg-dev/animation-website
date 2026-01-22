@@ -7,22 +7,69 @@ import incenter from '/videos/incenter_scene/1080p60/incenter_1080p.mp4';
 import orthocenter from '/videos/orthocenter_scene/1080p60/orthocenter_1080p.mp4';
 
 const videos = [
-  { id: 'centroid', title: 'Centroid', src: centroid },
-  { id: 'circumcenter', title: 'Circumcenter', src: circumcenter },
-  { id: 'incenter', title: 'Incenter', src: incenter },
-  { id: 'orthocenter', title: 'Orthocenter', src: orthocenter }
+  { id: 'centroid', title: 'Centroid', src: centroid, description: 'Intersection of the medians' },
+  { id: 'circumcenter', title: 'Circumcenter', src: circumcenter, description: 'Center of the circumscribed circle' },
+  { id: 'incenter', title: 'Incenter', src: incenter, description: 'Center of the inscribed circle' },
+  { id: 'orthocenter', title: 'Orthocenter', src: orthocenter, description: 'Intersection of the altitudes' }
 ];
 ---
 
-<BaseLayout title="Center points - videos">
-  <h2>Center constructions</h2>
-  <p>Four videos showing different triangle centers. These are imported with static imports from <code>/videos/...</code> (served from <code>public/</code>), not by scanning directories.</p>
+<BaseLayout title="Triangle Centers">
+  <style>
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    
+    .video-figure {
+      margin: 0;
+      background: white;
+      padding: 1.25rem;
+      border-radius: 12px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      border: 1px solid #e2e8f0;
+      transition: all 0.3s ease;
+    }
+    
+    .video-figure:hover {
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      transform: translateY(-2px);
+    }
+    
+    .video-figure video {
+      width: 100%;
+      border-radius: 8px;
+      display: block;
+      background: #000;
+    }
+    
+    .video-caption {
+      margin-top: 0.75rem;
+      font-weight: 600;
+      color: #0f172a;
+      font-size: 1.05rem;
+    }
+    
+    .video-description {
+      margin-top: 0.25rem;
+      font-size: 0.9rem;
+      color: #64748b;
+    }
+  </style>
 
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;align-items:start">
+  <h2>Triangle Centers</h2>
+  <p>Explore the four classical centers of a triangle and their geometric constructions.</p>
+
+  <div class="video-grid">
     {videos.map(video => (
-      <figure key={video.id} style="margin:0;background:#fff;padding:1rem;border-radius:8px;box-shadow:0 1px 4px rgba(2,6,23,.06)">
-        <video controls width="100%" src={video.src} aria-labelledby={`${video.id}-caption`} style="border-radius:6px;display:block"/>
-        <figcaption id={`${video.id}-caption`} style="margin-top:.5rem;font-weight:600">{video.title}</figcaption>
+      <figure class="video-figure">
+        <video controls src={video.src} aria-labelledby={`${video.id}-caption`} />
+        <figcaption id={`${video.id}-caption`} class="video-caption">
+          {video.title}
+          <div class="video-description">{video.description}</div>
+        </figcaption>
       </figure>
     ))}
   </div>

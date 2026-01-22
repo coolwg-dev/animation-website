@@ -1,38 +1,76 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-const title = 'Confidence interval';
+const title = 'Confidence Intervals';
 
-// Import known video files directly so they are bundled and available as URLs.
-// These imports use relative paths into the `public` folder. If you add more
-// videos, add imports here (or migrate videos into `src/assets` and use
-// import.meta.glob for a dynamic approach).
 import CIConstruction from '../../public/videos/Confidence interval/ConfidenceIntervalConstruction.mp4';
 import CLI_720 from '../../public/videos/Confidence interval/ConfidenceLevelInterpretation_720p30.mp4';
 import DC_1080_60 from '../../public/videos/Confidence interval/DistributionComparison_1080p60.mp4';
 
 const videos = [
-  { src: CIConstruction, name: 'ConfidenceIntervalConstruction.mp4' },
-  { src: CLI_720, name: 'ConfidenceLevelInterpretation_720p30.mp4' },
-  { src: DC_1080_60, name: 'DistributionComparison_1080p60.mp4' },
+  { src: CIConstruction, title: 'Confidence Interval Construction', description: 'Learn how confidence intervals are constructed' },
+  { src: CLI_720, title: 'Confidence Level Interpretation', description: 'Understanding confidence levels' },
+  { src: DC_1080_60, title: 'Distribution Comparison', description: 'Comparing different distributions' },
 ];
 ---
 
 <BaseLayout title={title}>
-  <h2>Confidence interval</h2>
-  {videos.length && (
-    <div>
-      <h3>Videos</h3>
-      <ul style="list-style:none;padding:0">
-        {videos.map(v => (
-          <li style="margin-bottom:1.5rem">
-            <strong>{v.name}</strong>
-            <div style="margin-top:.5rem">
-              <iframe src={v.src} width="800" height="450" title={v.name} style="border:1px solid #e6eef0;border-radius:6px"></iframe>
-            </div>
-          </li>
-        ))}
-      </ul>
-    </div>
-  )}
+  <style>
+    .video-list {
+      list-style: none;
+      padding: 0;
+      margin-top: 2rem;
+    }
+    
+    .video-item {
+      margin-bottom: 2.5rem;
+      padding: 1.5rem;
+      background: white;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+    
+    .video-item h4 {
+      margin: 0 0 0.5rem;
+      color: #0f172a;
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+    
+    .video-item .description {
+      color: #64748b;
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+    
+    .video-item iframe {
+      width: 100%;
+      max-width: 900px;
+      height: 500px;
+      border: 0;
+      border-radius: 8px;
+      background: #000;
+    }
+    
+    @media (max-width: 768px) {
+      .video-item iframe {
+        height: 300px;
+      }
+    }
+  </style>
 
+  <h2>Confidence Intervals</h2>
+  <p>Understand confidence intervals through visual demonstrations of construction, interpretation, and statistical distributions.</p>
+
+  {videos.length && (
+    <ul class="video-list">
+      {videos.map(v => (
+        <li class="video-item">
+          <h4>{v.title}</h4>
+          <div class="description">{v.description}</div>
+          <iframe src={v.src} title={v.title} allowfullscreen></iframe>
+        </li>
+      ))}
+    </ul>
+  )}
 </BaseLayout>

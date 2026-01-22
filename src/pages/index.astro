@@ -1,49 +1,100 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-const title = "Animation Website — Placeholder";
+const title = "Mathematical Animation Gallery";
 ---
 <BaseLayout title={title}>
-  <h2>Welcome</h2>
-  <p>This site hosts short math animation videos organized by category. Click a category to view its videos and embedding instructions.</p>
+  <style>
+    .intro {
+      margin-bottom: 3rem;
+    }
+    
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    
+    .category-card {
+      display: block;
+      padding: 1.5rem;
+      border-radius: 12px;
+      background: white;
+      border: 1px solid #e2e8f0;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.3s ease;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+    
+    .category-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+      border-color: #0891b2;
+    }
+    
+    .category-card strong {
+      display: block;
+      font-size: 1.125rem;
+      color: #0f172a;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+    
+    .category-card .description {
+      color: #64748b;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+  </style>
+
+  <div class="intro">
+    <h2>Welcome</h2>
+    <p>Explore our collection of mathematical animation videos covering calculus, statistics, linear algebra, and geometry.</p>
+  </div>
 
   <section aria-labelledby="categories">
-    <h3 id="categories">Categories</h3>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-top:1rem">
-      <a href="/fourier_square_wave" style="display:block;padding:1rem;border-radius:8px;background:#ffffff;border:1px solid #e6eef0;text-decoration:none;color:inherit">
-        <strong>Fourier — Square Wave</strong>
-        <div style="margin-top:.4rem;color:#64748b">Animations showing Fourier series approximations to a square wave.</div>
+    <h3 id="categories">Animation Categories</h3>
+    <div class="category-grid">
+      <a href="/fourier_square_wave" class="category-card">
+        <strong>Fourier Series</strong>
+        <div class="description">Fourier series approximations to a square wave</div>
       </a>
 
-      <a href="/power_curves" style="display:block;padding:1rem;border-radius:8px;background:#ffffff;border:1px solid #e6eef0;text-decoration:none;color:inherit">
-        <strong>Power curves</strong>
-        <div style="margin-top:.4rem;color:#64748b">Visualizations of power functions and their behavior.</div>
+      <a href="/power_curves" class="category-card">
+        <strong>Power Curves</strong>
+        <div class="description">Visualizations of power functions and their behavior</div>
       </a>
 
-      <a href="/riemann_sum_manim" style="display:block;padding:1rem;border-radius:8px;background:#ffffff;border:1px solid #e6eef0;text-decoration:none;color:inherit">
-        <strong>Riemann sum (manim)</strong>
-        <div style="margin-top:.4rem;color:#64748b">Riemann sum animations built with Manim.</div>
+      <a href="/riemann_sum_manim" class="category-card">
+        <strong>Riemann Sums</strong>
+        <div class="description">Integral approximations using Riemann sums</div>
       </a>
 
-      <a href="/secant_to_tangent" style="display:block;padding:1rem;border-radius:8px;background:#ffffff;border:1px solid #e6eef0;text-decoration:none;color:inherit">
-        <strong>Secant → Tangent</strong>
-        <div style="margin-top:.4rem;color:#64748b">Animations that show secant lines approaching tangent lines.</div>
-      </a>
-      <a href="/monte-carlo" style="display:block;padding:1rem;border-radius:8px;background:#ffffff;border:1px solid #e6eef0;text-decoration:none;color:inherit">
-        <strong>Monte Carlo</strong>
-        <div style="margin-top:.4rem;color:#64748b">Monte Carlo scenes demonstrating randomness and estimation (e.g. π via random sampling).</div>
+      <a href="/secant_to_tangent" class="category-card">
+        <strong>Secant to Tangent</strong>
+        <div class="description">How secant lines approach the tangent</div>
       </a>
 
-      <a href="/confidence_interval" style="display:block;padding:1rem;border-radius:8px;background:#ffffff;border:1px solid #e6eef0;text-decoration:none;color:inherit">
-        <strong>Confidence interval</strong>
-        <div style="margin-top:.4rem;color:#64748b">Videos explaining confidence intervals, construction, and interpretation.</div>
+      <a href="/monte-carlo" class="category-card">
+        <strong>Monte Carlo Methods</strong>
+        <div class="description">Randomness and estimation techniques</div>
       </a>
-      <a href="/centers" style="display:block;padding:1rem;border-radius:8px;background:#ffffff;border:1px solid #e6eef0;text-decoration:none;color:inherit">
-        <strong>Center points</strong>
-        <div style="margin-top:.4rem;color:#64748b">Animations of triangle centers: centroid, circumcenter, incenter, and orthocenter.</div>
+
+      <a href="/confidence_interval" class="category-card">
+        <strong>Confidence Intervals</strong>
+        <div class="description">Statistical confidence interval concepts</div>
+      </a>
+
+      <a href="/centers" class="category-card">
+        <strong>Triangle Centers</strong>
+        <div class="description">Geometric centers of triangles</div>
+      </a>
+
+      <a href="/vector_transformation" class="category-card">
+        <strong>Vector Transformations</strong>
+        <div class="description">Linear transformations and matrix operations</div>
+      </a>
     </div>
   </section>
-
-  <hr style="margin:2rem 0" />
-
-  <p>If you want to add videos: place them in <code>/public/videos/&lt;category&gt;/</code> (for example <code>/public/videos/fourier_square_wave/</code>) and link/embed them from the category pages.</p>
 </BaseLayout>
