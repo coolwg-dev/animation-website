@@ -30,45 +30,87 @@ const scenesWithVideos = Object.entries(scenesMap).map(([id, info]) => ({ id, ti
   <style>
     .video-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-      gap: 1.5rem;
-      margin-top: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
     }
     
     .video-card {
-      padding: 1.25rem;
-      border-radius: 12px;
-      background: white;
-      border: 1px solid #e2e8f0;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-      transition: box-shadow 0.3s ease;
+      padding: 1.75rem;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .video-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
     }
     
     .video-card:hover {
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 16px 48px rgba(102, 126, 234, 0.25);
+    }
+    
+    .video-card:hover::before {
+      transform: scaleX(1);
     }
     
     .video-card h4 {
-      margin: 0 0 1rem;
-      color: #0f172a;
-      font-size: 1.1rem;
-      font-weight: 600;
+      margin: 0 0 1.25rem;
+      color: #1e293b;
+      font-size: 1.25rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
     
     .video-card iframe {
       width: 100%;
-      height: 280px;
+      height: 300px;
       border: 0;
       background: #000;
-      border-radius: 8px;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
     }
     
     .no-video {
-      background: #f8fafc;
+      background: rgba(248, 250, 252, 0.8);
       padding: 3rem 1rem;
-      border-radius: 8px;
+      border-radius: 12px;
       color: #64748b;
       text-align: center;
+      font-weight: 500;
+    }
+    
+    @media (max-width: 768px) {
+      .video-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      
+      .video-card {
+        padding: 1.5rem;
+      }
+      
+      .video-card iframe {
+        height: 250px;
+      }
     }
   </style>
 

@@ -18,44 +18,81 @@ const videos = [
   <style>
     .video-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-      margin-top: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
     }
     
     .video-figure {
       margin: 0;
-      background: white;
-      padding: 1.25rem;
-      border-radius: 12px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-      border: 1px solid #e2e8f0;
-      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 1.75rem;
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .video-figure::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
     }
     
     .video-figure:hover {
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-      transform: translateY(-2px);
+      box-shadow: 0 16px 48px rgba(102, 126, 234, 0.25);
+      transform: translateY(-6px) scale(1.02);
+    }
+    
+    .video-figure:hover::before {
+      transform: scaleX(1);
     }
     
     .video-figure video {
       width: 100%;
-      border-radius: 8px;
+      border-radius: 12px;
       display: block;
       background: #000;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
     }
     
     .video-caption {
-      margin-top: 0.75rem;
-      font-weight: 600;
-      color: #0f172a;
-      font-size: 1.05rem;
+      margin-top: 1rem;
+      font-weight: 700;
+      color: #1e293b;
+      font-size: 1.25rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
     
     .video-description {
-      margin-top: 0.25rem;
-      font-size: 0.9rem;
-      color: #64748b;
+      margin-top: 0.5rem;
+      font-size: 0.95rem;
+      color: #475569;
+      font-weight: 500;
+    }
+    
+    @media (max-width: 768px) {
+      .video-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      
+      .video-figure {
+        padding: 1.5rem;
+      }
     }
   </style>
 
